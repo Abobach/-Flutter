@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "603881904129",
+    "firebase_url": "https://historyplace-e9252-default-rtdb.firebaseio.com",
+    "project_id": "historyplace-e9252",
+    "storage_bucket": "historyplace-e9252.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:603881904129:android:43fe8835f0036f2fa60800",
+        "android_client_info": {
+          "package_name": "com.example.diplom_flutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "603881904129-g1680ospiephop5oeb6ibuf3u8og8mt5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBh7qIyfN5vtgnizoWHgpO5BbTPj9JUh2E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "603881904129-g1680ospiephop5oeb6ibuf3u8og8mt5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "603881904129-dkrte9rdh9aoqq7fhm3m91ad0f00karo.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.comment.historyPlace.HistoryPlace2"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

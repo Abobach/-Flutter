@@ -6,10 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-
 import '../CategoriesPage/cookie_page.dart';
 import '../data/coffee_shop.dart';
-import 'info.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -118,6 +116,23 @@ class _HomeScreenState extends State<HomeScreen> {
                 "Окунись в историю твоего любимого города",
                 style: GoogleFonts.montserrat(
                     fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+            ),
+            Container(
+              height: 200,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                  color: Colors.blue, borderRadius: BorderRadius.circular(50)),
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  left: 20,
+                  top: 30,
+                ),
+                child: Text(
+                  "Забронируй столик прямо сейчас",
+                  style: GoogleFonts.montserrat(
+                      fontSize: 18, fontWeight: FontWeight.bold),
+                ),
               ),
             ),
             const CoffeShop(

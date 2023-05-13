@@ -28,6 +28,11 @@ class CategoriyScreenTest extends StatelessWidget {
           MaterialPageRoute(builder: (context) => CoffeCategorysPage()));
     }
 
+    onSuvenirPress() {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => CoffeCategorysPage()));
+    }
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromRGBO(29, 65, 53, 1),
@@ -72,9 +77,6 @@ class CategoriyScreenTest extends StatelessWidget {
                   height: 143,
                   margin: const EdgeInsets.only(
                       left: 10, right: 10, bottom: 13, top: 5),
-                  // margin: index % 2 == 0
-                  //     ? const EdgeInsets.only(left: 22)
-                  //     : const EdgeInsets.only(right: 22),
                   decoration: BoxDecoration(
                     color: Colors.green,
                     borderRadius: BorderRadius.circular(34),
@@ -91,6 +93,33 @@ class CategoriyScreenTest extends StatelessWidget {
                           heightFactor: 3,
                           child: Text(
                             "Кофе и десерты",
+                            style: headline1,
+                          ),
+                        )),
+                  )),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 4.0),
+              child: Container(
+                  height: 143,
+                  margin: const EdgeInsets.only(
+                      left: 10, right: 10, bottom: 13, top: 5),
+                  decoration: BoxDecoration(
+                    color: Colors.green,
+                    borderRadius: BorderRadius.circular(34),
+                    image: const DecorationImage(
+                      image: AssetImage('assets/image/qwerty.jpeg'),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  child: GestureDetector(
+                    onTap: onSuvenirPress,
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.circular(35),
+                        child: const Center(
+                          heightFactor: 3,
+                          child: Text(
+                            "Сувениры",
                             style: headline1,
                           ),
                         )),

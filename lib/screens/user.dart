@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diplom_flutter/core/text_style.dart';
-
 import 'package:diplom_flutter/screens/reset_password_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +7,6 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:flutter/rendering.dart';
 import 'package:diplom_flutter/provider/dark_theme_provider.dart';
 import 'package:provider/provider.dart';
-
 import '../data/map_screen.dart';
 
 class UserScreen extends StatefulWidget {
@@ -23,14 +21,14 @@ class _UserScreenState extends State<UserScreen> {
   final db = FirebaseFirestore.instance;
 
   get index => null;
-  // profileSet() {
-  //   FirebaseAuth.instance.authStateChanges().listen((User? user) {
-  //     if (user != null) {
-  //       String? userEmail = user.email;
-  //       String? userPassword = user.uid;
-  //     }
-  //   });
-  // }
+  profileSet() {
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if (user != null) {
+        String? userEmail = user.email;
+        String? userPassword = user.uid;
+      }
+    });
+  }
 
   Future<void> signOut() async {
     final navigator = Navigator.of(context);
@@ -84,10 +82,6 @@ class _UserScreenState extends State<UserScreen> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(50),
                           color: Colors.blue,
-                          // image: const DecorationImage(
-                          //   image: AssetImage('assest/image/coffe1.jpg'),
-                          //   fit: BoxFit.cover,
-                          // ),
                         ),
                       ),
                       SizedBox(height: 20),

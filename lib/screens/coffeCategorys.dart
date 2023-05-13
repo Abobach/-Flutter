@@ -96,7 +96,7 @@ class _CoffeCategorysPageState extends State<CoffeCategorysPage> {
                       height: 460.0,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
-                        itemCount: 2,
+                        itemCount: 3,
                         itemBuilder: (BuildContext context, int index) {
                           return GestureDetector(
                             onTap: () => Navigator.of(context).push(
@@ -171,7 +171,7 @@ class _CoffeCategorysPageState extends State<CoffeCategorysPage> {
     return Padding(
         padding: EdgeInsets.only(left: 10.0, right: 30.0),
         child: Container(
-            height: 470.0,
+            height: 480.0,
             width: 250.0,
             child: Column(
               children: <Widget>[
@@ -209,13 +209,12 @@ class _CoffeCategorysPageState extends State<CoffeCategorysPage> {
                                       fontWeight: FontWeight.bold,
                                       color: Colors.white),
                                 ),
-                                SizedBox(height: 10.0),
+                                SizedBox(height: 20.0),
                                 Text(
                                   description,
                                   style: TextStyle(
                                       fontFamily: 'nunito',
                                       fontSize: 14.0,
-                                      // fontWeight: FontWeight.w300,
                                       color: Colors.white),
                                 ),
                                 SizedBox(height: 10.0),

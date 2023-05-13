@@ -120,8 +120,8 @@ class _DetailsPageState extends State<DetailsPage> {
                       ),
                     ),
                     SizedBox(height: 10.0),
-                    Text(
-                      'Nutrition Information',
+                    const Text(
+                      'Информация о питании',
                       style: TextStyle(
                           fontFamily: 'nunito',
                           fontSize: 14.0,
@@ -130,8 +130,8 @@ class _DetailsPageState extends State<DetailsPage> {
                     ),
                     SizedBox(height: 10.0),
                     Row(children: [
-                      Text(
-                        'Calories',
+                      const Text(
+                        'Калории',
                         style: TextStyle(
                             fontFamily: 'nunito',
                             fontSize: 14.0,
@@ -139,8 +139,8 @@ class _DetailsPageState extends State<DetailsPage> {
                       ),
                       SizedBox(width: 15.0),
                       Text(
-                        '250',
-                        style: TextStyle(
+                        widget.querySnapshot['calories'],
+                        style: const TextStyle(
                             fontFamily: 'nunito',
                             fontSize: 12.0,
                             fontWeight: FontWeight.bold,
@@ -151,7 +151,7 @@ class _DetailsPageState extends State<DetailsPage> {
                     Row(
                       children: <Widget>[
                         Text(
-                          'Proteins',
+                          'Протеин',
                           style: TextStyle(
                               fontFamily: 'nunito',
                               fontSize: 14.0,
@@ -159,7 +159,7 @@ class _DetailsPageState extends State<DetailsPage> {
                         ),
                         SizedBox(width: 15.0),
                         Text(
-                          '10g',
+                          widget.querySnapshot['Proteins'],
                           style: TextStyle(
                               fontFamily: 'nunito',
                               fontSize: 12.0,
@@ -172,7 +172,7 @@ class _DetailsPageState extends State<DetailsPage> {
                     Row(
                       children: <Widget>[
                         Text(
-                          'Caffeine',
+                          'Кофеин',
                           style: TextStyle(
                               fontFamily: 'nunito',
                               fontSize: 14.0,
@@ -227,7 +227,8 @@ class _DetailsPageState extends State<DetailsPage> {
                   width: 400.0,
                   decoration: BoxDecoration(
                       image: DecorationImage(
-                          image: AssetImage('assets/assets1/pinkcup.png'),
+                          image:
+                              NetworkImage(widget.querySnapshot['imageCoffe']),
                           fit: BoxFit.cover)))),
           Positioned(
               top: 25.0,
@@ -243,7 +244,7 @@ class _DetailsPageState extends State<DetailsPage> {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: <Widget>[
                             Container(
-                              width: 150.0,
+                              width: 200.0,
                               child: Text(widget.querySnapshot['name'],
                                   style: TextStyle(
                                       fontFamily: 'varela',
@@ -252,15 +253,6 @@ class _DetailsPageState extends State<DetailsPage> {
                                       color: Colors.white)),
                             ),
                             SizedBox(width: 15.0),
-                            Container(
-                                height: 40.0,
-                                width: 40.0,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20.0),
-                                    color: Colors.white),
-                                child: Center(
-                                    child: Icon(Icons.favorite,
-                                        size: 18.0, color: Colors.red)))
                           ],
                         ),
                         SizedBox(height: 10.0),

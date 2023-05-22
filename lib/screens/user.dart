@@ -1,10 +1,11 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diplom_flutter/core/text_style.dart';
 import 'package:diplom_flutter/screens/reset_password_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
-import 'package:flutter/rendering.dart';
 import 'package:diplom_flutter/provider/dark_theme_provider.dart';
 import 'package:provider/provider.dart';
 import '../data/map_screen.dart';
@@ -61,86 +62,99 @@ class _UserScreenState extends State<UserScreen> {
             ),
           ],
         ),
-        body: StreamBuilder(
-            stream: db.collection("user").snapshots(),
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
-              if (!snapshot.hasData)
-                return Center(
-                  child: CircularProgressIndicator(
-                    color: Colors.black12,
-                  ),
-                );
-              return Center(
-                  child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Column(
+        body: SingleChildScrollView(
+            child: StreamBuilder(
+                stream: db.collection("user").snapshots(),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (!snapshot.hasData)
+                    return Center(
+                      child: CircularProgressIndicator(
+                        color: Colors.black12,
+                      ),
+                    );
+                  return Center(
+                      child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(
-                        width: 100,
-                        height: 100,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50),
-                          color: Colors.blue,
-                        ),
+                      Column(
+                        children: [
+                          Container(
+                            width: 200,
+                            height: 200,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50),
+                              color: Colors.blue,
+                            ),
+                          ),
+                          SizedBox(height: 20),
+                          Text(
+                            user.email!,
+                            style: headline4,
+                          ),
+                        ],
                       ),
-                      SizedBox(height: 20),
-                      Text(
-                        user.email!,
-                        style: headline3,
+                      SizedBox(height: 40),
+                      _listTiles(
+                          title: 'Адресс',
+                          subtitle: 'Изменить адрес',
+                          icon: IconlyBold.profile,
+                          OnPressed: () async {
+                            try {
+                              final result =
+                                  await InternetAddress.lookup('example.com');
+                              if (result.isNotEmpty &&
+                                  result[0].rawAddress.isNotEmpty) {
+                                print('connected');
+                              }
+                            } on SocketException catch (_) {
+                              print('not connected');
+                            }
+                          }),
+                      _listTiles(
+                          title: 'Номер телефона',
+                          subtitle: 'Изменить номер телефона',
+                          icon: IconlyBold.call,
+                          OnPressed: () {}),
+                      _listTiles(
+                          title: 'Мои места',
+                          subtitle: 'места которые вы посетили',
+                          icon: IconlyBold.activity,
+                          OnPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (builder) => MapScreen()));
+                          }),
+                      _listTiles(
+                          title: 'Востановление пароля',
+                          icon: IconlyBold.unlock,
+                          OnPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (builder) =>
+                                        ResetPasswordScreen()));
+                          }),
+                      SwitchListTile(
+                        title: const Text('Темная тема'),
+                        secondary: Icon(themeState.getDarlTheme
+                            ? Icons.dark_mode_outlined
+                            : Icons.light_mode_outlined),
+                        onChanged: (bool value) {
+                          setState(() {
+                            themeState.setDarkTheme = value;
+                          });
+                        },
+                        value: themeState.getDarlTheme,
                       ),
+                      _listTiles(
+                        title: 'Выход',
+                        icon: IconlyBold.logout,
+                        OnPressed: () => signOut(),
+                      )
                     ],
-                  ),
-                  SizedBox(height: 40),
-                  _listTiles(
-                      title: 'Адресс',
-                      subtitle: 'Изменить адрес',
-                      icon: IconlyBold.profile,
-                      OnPressed: () {}),
-                  _listTiles(
-                      title: 'Номер телефона',
-                      subtitle: 'Изменить номер телефона',
-                      icon: IconlyBold.call,
-                      OnPressed: () {}),
-                  _listTiles(
-                      title: 'Мои места',
-                      subtitle: 'места которые вы посетили',
-                      icon: IconlyBold.activity,
-                      OnPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (builder) => MapScreen()));
-                      }),
-                  _listTiles(
-                      title: 'Востановление пароля',
-                      icon: IconlyBold.unlock,
-                      OnPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (builder) => ResetPasswordScreen()));
-                      }),
-                  SwitchListTile(
-                    title: const Text('Темная тема'),
-                    secondary: Icon(themeState.getDarlTheme
-                        ? Icons.dark_mode_outlined
-                        : Icons.light_mode_outlined),
-                    onChanged: (bool value) {
-                      setState(() {
-                        themeState.setDarkTheme = value;
-                      });
-                    },
-                    value: themeState.getDarlTheme,
-                  ),
-                  _listTiles(
-                    title: 'Выход',
-                    icon: IconlyBold.logout,
-                    OnPressed: () => signOut(),
-                  )
-                ],
-              ));
-            }));
+                  ));
+                })));
   }
 
   Widget _listTiles({

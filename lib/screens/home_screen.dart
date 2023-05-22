@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import '../CategoriesPage/cookie_page.dart';
+
 import '../data/coffee_shop.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -33,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Stack(
               children: [
                 Container(
-                    height: 140,
+                    height: 120,
                     width: double.infinity,
                     color: const Color.fromRGBO(29, 65, 53, 1)),
                 Column(
@@ -51,24 +51,26 @@ class _HomeScreenState extends State<HomeScreen> {
                             children: [
                               Container(
                                   alignment: Alignment.topLeft,
-                                  height: 45,
-                                  width: 45,
+                                  height: 50,
+                                  width: 50,
                                   decoration: BoxDecoration(
                                       image: const DecorationImage(
-                                          image: NetworkImage(
-                                              "https://studiolorier.com/wp-content/uploads/2018/10/Profile-Round-Sander-Lorier.jpg")),
+                                          image: AssetImage(
+                                              "assets/image/logo.jpeg")),
                                       borderRadius: BorderRadius.circular(25),
                                       border: Border.all(
                                           color: Colors.white,
                                           style: BorderStyle.solid,
-                                          width: 2))),
+                                          width: 3))),
                               const SizedBox(
                                 width: 10,
                               ),
                               Text(
                                 "Добро пожаловать!",
-                                style:
-                                    GoogleFonts.montserrat(color: Colors.white),
+                                style: GoogleFonts.montserrat(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold),
                               )
                             ],
                           ),
@@ -82,30 +84,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         ],
                       ),
                     ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(15),
-                      child: Container(
-                        height: 60,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                            color: Color(0xFFF5F5F7),
-                            borderRadius: BorderRadius.circular(30)),
-                        child: TextField(
-                          cursorHeight: 20,
-                          autofocus: false,
-                          decoration: InputDecoration(
-                              hintText: "Поиск",
-                              prefixIcon: Icon(Icons.search),
-                              border: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: Colors.grey, width: 2),
-                                  borderRadius: BorderRadius.circular(30))),
-                        ),
-                      ),
-                    ),
                   ],
                 )
               ],
@@ -113,28 +91,32 @@ class _HomeScreenState extends State<HomeScreen> {
             Padding(
               padding: const EdgeInsets.all(15),
               child: Text(
-                "Окунись в историю твоего любимого города",
+                "Варим кофе с любовью для вас",
                 style: GoogleFonts.montserrat(
-                    fontSize: 18, fontWeight: FontWeight.bold),
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black),
               ),
             ),
             Container(
-              height: 200,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  color: Colors.blue, borderRadius: BorderRadius.circular(50)),
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  left: 20,
-                  top: 30,
-                ),
-                child: Text(
-                  "Забронируй столик прямо сейчас",
-                  style: GoogleFonts.montserrat(
-                      fontSize: 18, fontWeight: FontWeight.bold),
-                ),
+                height: 125.0,
+                child: ListView(scrollDirection: Axis.horizontal, children: [
+                  _buildImage('assets/assets1/coffee.jpg'),
+                  _buildImage('assets/assets1/coffee2.jpg'),
+                  _buildImage('assets/assets1/coffee3.jpg')
+                ])),
+            SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.all(15),
+              child: Text(
+                "Окунись в историю твоего любимого города",
+                style: GoogleFonts.montserrat(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black),
               ),
             ),
+            SizedBox(height: 20),
             const CoffeShop(
               imagePath: "assets/image/1.jpg",
               nameShop: "Волоколамский кремль",
@@ -153,9 +135,56 @@ class _HomeScreenState extends State<HomeScreen> {
               rating: "4.7",
               jamBuka: "10.00 - 15.00",
             ),
+            SizedBox(height: 30.0),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    'Дальше - Больше',
+                    style: TextStyle(
+                        fontFamily: 'varela',
+                        fontSize: 17.0,
+                        color: Color(0xFF473D3A)),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 15.0),
+                    child: Text(
+                      'Посмотреть все',
+                      style: TextStyle(
+                          fontFamily: 'varela',
+                          fontSize: 15.0,
+                          color: Color(0xFFCEC7C4)),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 15.0),
+            Container(
+                height: 125.0,
+                child: ListView(scrollDirection: Axis.horizontal, children: [
+                  _buildImage('assets/assets1/coffee.jpg'),
+                  _buildImage('assets/assets1/coffee2.jpg'),
+                  _buildImage('assets/assets1/coffee3.jpg')
+                ])),
+            SizedBox(height: 20.0),
           ],
         )),
       ),
     );
+  }
+
+  _buildImage(String imgPath) {
+    return Padding(
+        padding: EdgeInsets.only(right: 15.0),
+        child: Container(
+            height: 100.0,
+            width: 275.0,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15.0),
+                image: DecorationImage(
+                    image: AssetImage(imgPath), fit: BoxFit.cover))));
   }
 }

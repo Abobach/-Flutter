@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.diplom_flutter">
    <application
-        android:label="diplom_flutter"
+        android:label="Исторрия места"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

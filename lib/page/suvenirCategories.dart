@@ -1,135 +1,56 @@
-// import 'package:flutter/material.dart';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:diplom_flutter/core/colors.dart';
-import 'package:diplom_flutter/core/text_style.dart';
-import 'package:diplom_flutter/page/trailspage.dart';
 import 'package:flutter/material.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 
+import '../core/colors.dart';
 import '../data/detail_page.dart';
 
-class TitlePage extends StatefulWidget {
-  const TitlePage({super.key});
+class SuvenirPage extends StatefulWidget {
+  const SuvenirPage({super.key});
 
   @override
-  State<TitlePage> createState() => _TitlePageState();
+  State<SuvenirPage> createState() => _SuvenirPageState();
 }
 
-class _TitlePageState extends State<TitlePage> {
+class _SuvenirPageState extends State<SuvenirPage> {
   final db = FirebaseFirestore.instance;
-  int currentIndex = 0;
-  List<String> category = [
-    "Церкви",
-    "Усадьбы",
-    "Памятники",
-  ];
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("Экскурсии"),
-          backgroundColor: const Color.fromRGBO(29, 65, 53, 1),
-        ),
-        body: StreamBuilder(
-            stream: db.collection("categories").snapshots(),
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
-              if (!snapshot.hasData)
-                return Center(child: CircularProgressIndicator());
-              return Column(
-                children: [
-                  const SizedBox(
-                    height: 10,
+      appBar: AppBar(
+        title: const Text("Сувениры"),
+        backgroundColor: const Color.fromRGBO(29, 65, 53, 1),
+      ),
+      body: StreamBuilder(
+          stream: db.collection("suvenirs").snapshots(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (!snapshot.hasData)
+              return Center(child: CircularProgressIndicator());
+            return Column(
+              children: [
+                const SizedBox(
+                  height: 10,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10.0),
+                  child: const Text(
+                    "Сувениры ручной работы только у нас",
+                    style: TextStyle(fontSize: 28, color: black),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10.0),
-                    child: const Text(
-                      "Окунись в историю любимо города",
-                      style: TextStyle(fontSize: 28, color: black),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 10.0),
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 6, horizontal: 6.0),
-                            decoration: BoxDecoration(
-                              color: Colors.grey,
-                              borderRadius: BorderRadius.circular(12.0),
-                            ),
-                            child: const TextField(
-                              cursorColor: Colors.black12,
-                              decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: "Поиск",
-                                  prefixIcon: Icon(
-                                    Icons.search,
-                                    size: 34,
-                                  )),
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      GestureDetector(
-                        onTap: () => print("object"),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 16, horizontal: 16),
-                          decoration: BoxDecoration(
-                              color: Color.fromRGBO(29, 65, 53, 1),
-                              borderRadius: BorderRadius.circular(50)),
-                          child: const Icon(
-                            Icons.search,
-                            color: Colors.white,
-                            size: 34,
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: List.generate(
-                        category.length,
-                        (index) => GestureDetector(
-                          onTap: () => setState(() {
-                            currentIndex = index;
-                          }),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                left: 20.0, right: 10, top: 10),
-                            child: Text(
-                              category[index],
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  color: currentIndex == index
-                                      ? Colors.black
-                                      : Colors.grey),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  Container(
-                    height: 400,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                const SizedBox(height: 20),
+                Padding(
+                  padding:
+                      const EdgeInsets.only(left: 15.0, right: 8.0, bottom: 12),
+                  child: Container(
+                    height: 700,
                     child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: 2,
+                      scrollDirection: Axis.vertical,
+                      itemCount: 6,
                       itemBuilder: (context, index) {
                         return GestureDetector(
                           onTap: () => Navigator.of(context).push(
@@ -142,9 +63,10 @@ class _TitlePageState extends State<TitlePage> {
                               Hero(
                                 tag: "trail$index",
                                 child: Container(
-                                    height: 460,
+                                    height: 360,
                                     width: 350,
-                                    margin: EdgeInsets.only(left: 24),
+                                    margin:
+                                        EdgeInsets.only(left: 24, bottom: 13),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(35),
                                       image: const DecorationImage(
@@ -154,7 +76,7 @@ class _TitlePageState extends State<TitlePage> {
                                     )),
                               ),
                               Container(
-                                  height: 460,
+                                  height: 360,
                                   width: 350,
                                   margin: EdgeInsets.only(left: 24),
                                   decoration: BoxDecoration(
@@ -172,7 +94,7 @@ class _TitlePageState extends State<TitlePage> {
                                         ],
                                       ))),
                               Positioned(
-                                  top: 24,
+                                  top: 34,
                                   left: 24,
                                   child: GlassmorphicContainer(
                                     height: 50,
@@ -197,7 +119,7 @@ class _TitlePageState extends State<TitlePage> {
                                           Colors.grey.withOpacity(0.4),
                                         ]),
                                     child: Text(
-                                      snapshot.data.docs[index]['subtitle'],
+                                      snapshot.data.docs[index]['price'],
                                       // docs[0]['subtitle']
                                       style: const TextStyle(
                                           fontSize: 18,
@@ -212,7 +134,7 @@ class _TitlePageState extends State<TitlePage> {
                                   margin: EdgeInsets.only(left: 24),
                                   width: size.width / 2,
                                   child: Text(
-                                    snapshot.data.docs[index]['title'],
+                                    snapshot.data.docs[index]['name'],
                                     style: const TextStyle(
                                         fontSize: 28,
                                         color: Colors.white,
@@ -226,8 +148,10 @@ class _TitlePageState extends State<TitlePage> {
                       },
                     ),
                   ),
-                ],
-              );
-            }));
+                ),
+              ],
+            );
+          }),
+    );
   }
 }

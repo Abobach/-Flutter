@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 
@@ -382,4 +384,14 @@ class _DetailsPageState extends State<DetailsPage> {
                           color: Color(0xFFC2C0C0)))))
         ]));
   }
+  // Future<bool> internet() async {
+  //   try{
+  //     final result = await InternetAddress.lookup('google.com');
+  //     if(result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+  //       return true;
+  //     }
+  //   } on SocketException catch (_) {
+  //     return false;
+  //   }
+  // }
 }

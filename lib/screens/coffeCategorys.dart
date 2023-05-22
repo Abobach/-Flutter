@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
+import '../page/suvenirCategories.dart';
 import 'detailPageCoffe.dart';
 
 class CoffeCategorysPage extends StatefulWidget {
@@ -81,19 +82,21 @@ class _CoffeCategorysPageState extends State<CoffeCategorysPage> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(right: 15.0),
-                        child: Text(
-                          'Посмотреть все!',
-                          style: TextStyle(
-                              fontFamily: 'varela',
-                              fontSize: 15.0,
-                              color: Color(0xFFCEC7C4)),
+                        child: SizedBox(
+                          child: Text(
+                            'Посмотреть все!',
+                            style: TextStyle(
+                                fontFamily: 'varela',
+                                fontSize: 15.0,
+                                color: Color(0xFFCEC7C4)),
+                          ),
                         ),
                       ),
                     ],
                   ),
                   SizedBox(height: 10.0),
                   Container(
-                      height: 460.0,
+                      height: 420.0,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemCount: 3,
@@ -116,30 +119,36 @@ class _CoffeCategorysPageState extends State<CoffeCategorysPage> {
                           );
                         },
                       )),
-                  SizedBox(height: 60.0),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text(
-                        'Дальше - Больше',
+                        'Лучшие десерты у нас!',
                         style: TextStyle(
                             fontFamily: 'varela',
                             fontSize: 17.0,
                             color: Color(0xFF473D3A)),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(right: 15.0),
-                        child: Text(
-                          'Посмотреть все',
-                          style: TextStyle(
-                              fontFamily: 'varela',
-                              fontSize: 15.0,
-                              color: Color(0xFFCEC7C4)),
+                        padding: const EdgeInsets.only(right: 20.0),
+                        child: IconButton(
+                          iconSize: 100,
+                          icon: Text(
+                            'Посмотреть все',
+                            style: TextStyle(
+                                fontFamily: 'varela',
+                                fontSize: 15.0,
+                                color: Color(0xFFCEC7C4)),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => SuvenirPage()));
+                          },
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(height: 15.0),
+                  SizedBox(height: 1.0),
                   Container(
                       height: 125.0,
                       child:
@@ -171,17 +180,17 @@ class _CoffeCategorysPageState extends State<CoffeCategorysPage> {
     return Padding(
         padding: EdgeInsets.only(left: 10.0, right: 30.0),
         child: Container(
-            height: 480.0,
+            height: 430.0,
             width: 250.0,
             child: Column(
               children: <Widget>[
                 Stack(children: [
-                  Container(height: 385.0),
+                  Container(height: 400.0),
                   Positioned(
                       top: 75.0,
                       child: Container(
                           padding: EdgeInsets.only(left: 10.0, right: 20.0),
-                          height: 360.0,
+                          height: 320.0,
                           width: 245.0,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(25.0),
@@ -201,48 +210,46 @@ class _CoffeCategorysPageState extends State<CoffeCategorysPage> {
                                       color: Colors.white),
                                 ),
                                 SizedBox(height: 10.0),
-                                Text(
-                                  coffeeName,
-                                  style: TextStyle(
-                                      fontFamily: 'varela',
-                                      fontSize: 32.0,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white),
-                                ),
-                                SizedBox(height: 20.0),
-                                Text(
-                                  description,
-                                  style: TextStyle(
-                                      fontFamily: 'nunito',
-                                      fontSize: 14.0,
-                                      color: Colors.white),
+                                Container(
+                                  width: 200,
+                                  height: 80,
+                                  child: Text(
+                                    coffeeName,
+                                    style: TextStyle(
+                                        fontFamily: 'varela',
+                                        fontSize: 32.0,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  ),
                                 ),
                                 SizedBox(height: 10.0),
+                                Container(
+                                  width: 240,
+                                  height: 86,
+                                  child: Text(
+                                    description,
+                                    style: TextStyle(
+                                        fontFamily: 'nunito',
+                                        fontSize: 14.0,
+                                        color: Colors.white),
+                                  ),
+                                ),
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
-                                    Text(
-                                      price,
-                                      style: TextStyle(
-                                          fontFamily: 'varela',
-                                          fontSize: 25.0,
-                                          fontWeight: FontWeight.bold,
-                                          color: Color(0xFF3A4742)),
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 10.0),
+                                      child: Container(
+                                        child: Text(
+                                          price,
+                                          style: TextStyle(
+                                              fontFamily: 'varela',
+                                              fontSize: 25.0,
+                                              fontWeight: FontWeight.bold,
+                                              color: Color(0xFF3A4742)),
+                                        ),
+                                      ),
                                     ),
-                                    Container(
-                                        height: 40.0,
-                                        width: 40.0,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(20.0),
-                                            color: Colors.white),
-                                        child: Center(
-                                            child: Icon(Icons.favorite,
-                                                color: isFavorite
-                                                    ? Colors.red
-                                                    : Colors.grey,
-                                                size: 15.0)))
                                   ],
                                 )
                               ]))),

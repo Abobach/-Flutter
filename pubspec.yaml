@@ -52,6 +52,8 @@ dependencies:
   yandex_mapkit: ^3.2.0
   geolocator: ^9.0.2
   firebase_storage: ^11.0.16
+  vector_math: ^2.1.4
+  pinput: ^2.2.31
 
 dev_dependencies:
   flutter_test:

@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:diplom_flutter/provider/dark_theme_provider.dart';
 import 'package:provider/provider.dart';
-import '../data/map_screen.dart';
 
 class UserScreen extends StatefulWidget {
   const UserScreen({super.key});
@@ -119,12 +118,7 @@ class _UserScreenState extends State<UserScreen> {
                           title: 'Мои места',
                           subtitle: 'места которые вы посетили',
                           icon: IconlyBold.activity,
-                          OnPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (builder) => MapScreen()));
-                          }),
+                          OnPressed: () {}),
                       _listTiles(
                           title: 'Востановление пароля',
                           icon: IconlyBold.unlock,

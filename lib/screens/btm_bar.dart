@@ -1,6 +1,7 @@
+import 'package:diplom_flutter/phoneAyth/home_screen.dart';
 import 'package:diplom_flutter/screens/categories.dart';
 import 'package:diplom_flutter/screens/home_screen.dart';
-import 'package:diplom_flutter/screens/info.dart';
+
 import 'package:diplom_flutter/screens/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,7 @@ class _BotomBarScreenState extends State<BotomBarScreen> {
       ),
       'title': 'Категории'
     },
-    {'page': UserScreen(), 'title': 'Профиль'},
+    {'page': HomePageScrenn(), 'title': 'Профиль'},
   ];
   void _selectPage(int index) {
     setState(() {

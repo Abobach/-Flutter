@@ -6,6 +6,8 @@ import 'package:diplom_flutter/data/demo.dart';
 import 'package:diplom_flutter/page/login_page.dart';
 import 'package:diplom_flutter/widget/main_button.dart';
 
+import '../phoneAyth/welcome_screen.dart';
+
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
 
@@ -66,8 +68,10 @@ class _HomePageState extends State<HomePage> {
                   ),
                   Mainbutton(
                     onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (builder) => LoginPage()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (builder) => WelcomeScreen()));
                     },
                     btnColor: blueButton,
                     text: 'Присоединиться к нам',

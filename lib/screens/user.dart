@@ -21,14 +21,6 @@ class _UserScreenState extends State<UserScreen> {
   final db = FirebaseFirestore.instance;
 
   get index => null;
-  profileSet() {
-    FirebaseAuth.instance.authStateChanges().listen((User? user) {
-      if (user != null) {
-        String? userEmail = user.email;
-        String? userPassword = user.uid;
-      }
-    });
-  }
 
   Future<void> signOut() async {
     final navigator = Navigator.of(context);

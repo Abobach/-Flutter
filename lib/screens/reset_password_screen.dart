@@ -26,47 +26,6 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     super.dispose();
   }
 
-  Future<void> resetPassword() async {
-    final navigator = Navigator.of(context);
-    final scaffoldMassager = ScaffoldMessenger.of(context);
-
-    final isValid = formKey.currentState!.validate();
-    if (!isValid) return;
-
-    try {
-      await FirebaseAuth.instance
-          .sendPasswordResetEmail(email: emailTextInputController.text.trim());
-    } on FirebaseAuthException catch (e) {
-      print(e.code);
-
-      if (e.code == 'user-not-found') {
-        SnackBarService.showSnackBar(
-          context,
-          'Такой email незарегистрирован!',
-          true,
-        );
-        return;
-      } else {
-        SnackBarService.showSnackBar(
-          context,
-          'Неизвестная ошибка! Попробуйте еще раз или обратитесь в поддержку.',
-          true,
-        );
-        return;
-      }
-    }
-
-    const snackBar = SnackBar(
-      content: Text('Сброс пароля осуществен. Проверьте почту'),
-      backgroundColor: Colors.green,
-    );
-
-    scaffoldMassager.showSnackBar(snackBar);
-
-    navigator.pushNamedAndRemoveUntil(
-        '/verify_email', (Route<dynamic> route) => false);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -146,9 +105,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     ),
                     const SizedBox(height: 50),
                     Mainbutton(
-                      onTap: () {
-                        resetPassword();
-                      },
+                      onTap: () {},
                       text: 'Сбросить пароль',
                       txtColor: const Color.fromRGBO(255, 255, 255, 1),
                       btnColor: const Color.fromRGBO(29, 65, 53, 1),

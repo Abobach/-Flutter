@@ -29,7 +29,7 @@ class _BotomBarScreenState extends State<BotomBarScreen> {
       ),
       'title': 'Категории'
     },
-    {'page': HomePageScrenn(), 'title': 'Профиль'},
+    {'page': UserScreen(), 'title': 'Профиль'},
   ];
   void _selectPage(int index) {
     setState(() {

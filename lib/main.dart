@@ -6,6 +6,7 @@ import 'package:diplom_flutter/page/sign_up.dart';
 import 'package:diplom_flutter/page/splash_Page.dart';
 import 'package:diplom_flutter/page/verify_email_screen.dart';
 import 'package:diplom_flutter/phoneAyth/auth_provider.dart';
+import 'package:diplom_flutter/phoneAyth/user_model.dart';
 import 'package:diplom_flutter/phoneAyth/welcome_screen.dart';
 import 'package:diplom_flutter/provider/dark_theme_provider.dart';
 import 'package:diplom_flutter/screens/btm_bar.dart';

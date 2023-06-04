@@ -9,6 +9,9 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:diplom_flutter/provider/dark_theme_provider.dart';
 import 'package:provider/provider.dart';
 
+import '../phoneAyth/auth_provider.dart';
+import '../phoneAyth/welcome_screen.dart';
+
 class UserScreen extends StatefulWidget {
   const UserScreen({super.key});
 
@@ -17,22 +20,12 @@ class UserScreen extends StatefulWidget {
 }
 
 class _UserScreenState extends State<UserScreen> {
-  final user = FirebaseAuth.instance.currentUser!;
   final db = FirebaseFirestore.instance;
-
-  get index => null;
-
-  Future<void> signOut() async {
-    final navigator = Navigator.of(context);
-
-    await FirebaseAuth.instance.signOut();
-
-    navigator.pushNamedAndRemoveUntil(
-        '/login', (Route<dynamic> route) => false);
-  }
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    final ap = Provider.of<AuthProvider>(context, listen: false);
     // profileSet();
     final themeState = Provider.of<DarkThemeProvider>(context);
 
@@ -45,13 +38,6 @@ class _UserScreenState extends State<UserScreen> {
             color: Color.fromRGBO(237, 218, 195, 1),
           ),
           title: Text("Профиль"),
-          actions: [
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.dark_mode),
-              color: Color.fromRGBO(237, 218, 195, 1),
-            ),
-          ],
         ),
         body: SingleChildScrollView(
             child: StreamBuilder(
@@ -69,18 +55,59 @@ class _UserScreenState extends State<UserScreen> {
                     children: [
                       Column(
                         children: [
+                          SizedBox(
+                            height: 20,
+                          ),
                           Container(
-                            width: 200,
-                            height: 200,
+                            height: 130,
+                            width: 130,
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(50),
-                              color: Colors.blue,
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                  image: NetworkImage(ap.userModel.profilePic),
+                                  fit: BoxFit.fill),
                             ),
                           ),
                           SizedBox(height: 20),
                           Text(
-                            user.email!,
+                            ap.userModel.name,
                             style: headline4,
+                          ),
+                          SizedBox(
+                            height: 30,
+                          ),
+                          Text(
+                            'Общая информация',
+                            style: TextStyle(color: Colors.grey),
+                          ),
+                          SizedBox(height: 10),
+                          Container(
+                            height: 200,
+                            width: 300,
+                            decoration: BoxDecoration(
+                              color: Color.fromRGBO(237, 218, 195, 1),
+                              borderRadius: BorderRadius.circular(40),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 12.0),
+                              child: Text(
+                                ap.userModel.bio,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Color.fromRGBO(29, 65, 53, 1),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Container(
+                            height: 6,
+                            width: size.width,
+                            decoration: BoxDecoration(
+                                color: Color.fromRGBO(29, 65, 53, 1)),
                           ),
                         ],
                       ),
@@ -136,7 +163,16 @@ class _UserScreenState extends State<UserScreen> {
                       _listTiles(
                         title: 'Выход',
                         icon: IconlyBold.logout,
-                        OnPressed: () => signOut(),
+                        OnPressed: () {
+                          ap.userSignOut().then(
+                                (value) => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const WelcomeScreen(),
+                                  ),
+                                ),
+                              );
+                        },
                       )
                     ],
                   ));

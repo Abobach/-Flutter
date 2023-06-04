@@ -56,6 +56,10 @@ class _UserInfromationScreenState extends State<UserInfromationScreen> {
                 child: Center(
                   child: Column(
                     children: [
+                      Text(
+                        'Расскажите немного о себе для нас',
+                        style: TextStyle(fontSize: 20, color: Colors.black),
+                      ),
                       InkWell(
                         onTap: () => selectImage(),
                         child: image == null

@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:vector_math/vector_math.dart' as math;
 
 import '../data/coffee_shop.dart';
+import '../phoneAyth/auth_provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -21,10 +22,12 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final db = FirebaseFirestore.instance;
+
   int _Index = 0;
 
   @override
   Widget build(BuildContext context) {
+    final ap = Provider.of<AuthProvider>(context, listen: false);
     Size size = MediaQuery.of(context).size;
     final user = FirebaseAuth.instance.currentUser;
     final themeState = Provider.of<DarkThemeProvider>(context);
@@ -71,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 width: 10,
                               ),
                               Text(
-                                "Добро пожаловать!",
+                                ap.userModel.name,
                                 style: GoogleFonts.montserrat(
                                     color: Colors.white,
                                     fontSize: 18,
@@ -258,7 +261,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                     fontSize: 14,
-                                                    color: Color.fromRGBO(
+                                                    color: const Color.fromRGBO(
                                                         237, 218, 195, 1),
                                                     fontWeight:
                                                         FontWeight.bold)),

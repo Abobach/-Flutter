@@ -42,85 +42,92 @@ class CategoriyScreenTest extends StatelessWidget {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.only(top: 4.0),
-              child: Container(
-                  height: 143,
-                  margin: const EdgeInsets.only(
-                      left: 10, right: 10, bottom: 13, top: 5),
-                  // margin: index % 2 == 0
-                  //     ? const EdgeInsets.only(left: 22)
-                  //     : const EdgeInsets.only(right: 22),
-                  decoration: BoxDecoration(
-                    color: Colors.green,
-                    borderRadius: BorderRadius.circular(34),
-                    image: const DecorationImage(
-                      image: AssetImage('assets/image/maka.jpg'),
-                      fit: BoxFit.cover,
+                padding: const EdgeInsets.only(top: 4.0),
+                child: GestureDetector(
+                  onTap: onCardPress,
+                  child: Container(
+                    height: 143,
+                    margin: const EdgeInsets.only(
+                        left: 10, right: 10, bottom: 13, top: 5),
+                    decoration: BoxDecoration(
+                      color: Colors.green,
+                      borderRadius: BorderRadius.circular(34),
+                      image: const DecorationImage(
+                        image: AssetImage('assets/image/1.jpg'),
+                        fit: BoxFit.cover,
+                      ),
                     ),
-                  ),
-                  child: GestureDetector(
-                    onTap: onCardPress,
                     child: ClipRRect(
                         borderRadius: BorderRadius.circular(35),
                         child: const Center(
                           heightFactor: 3,
                           child: Text(
                             "Экскурсии",
-                            style: headline1,
+                            style: TextStyle(
+                                color: const Color.fromRGBO(237, 218, 195, 1),
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold),
                           ),
                         )),
-                  )),
-            ),
+                  ),
+                )),
             Padding(
               padding: const EdgeInsets.only(top: 4.0),
-              child: Container(
-                  height: 143,
-                  margin: const EdgeInsets.only(
-                      left: 10, right: 10, bottom: 13, top: 5),
-                  decoration: BoxDecoration(
-                    color: Colors.green,
-                    borderRadius: BorderRadius.circular(34),
-                    image: const DecorationImage(
-                      image: AssetImage('assets/image/qwerty.jpeg'),
-                      fit: BoxFit.cover,
+              child: GestureDetector(
+                  onTap: onCoffePress,
+                  child: Container(
+                    height: 143,
+                    margin: const EdgeInsets.only(
+                        left: 10, right: 10, bottom: 13, top: 5),
+                    decoration: BoxDecoration(
+                      color: Colors.green,
+                      borderRadius: BorderRadius.circular(34),
+                      image: const DecorationImage(
+                        image: AssetImage('assets/image/qwerty.jpeg'),
+                        fit: BoxFit.cover,
+                      ),
                     ),
-                  ),
-                  child: GestureDetector(
-                    onTap: onCoffePress,
                     child: ClipRRect(
                         borderRadius: BorderRadius.circular(35),
                         child: const Center(
                           heightFactor: 3,
                           child: Text(
                             "Кофе и десерты",
-                            style: headline1,
+                            style: TextStyle(
+                                color: const Color.fromRGBO(237, 218, 195, 1),
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold),
                           ),
                         )),
                   )),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 4.0),
-              child: Container(
-                  height: 143,
-                  margin: const EdgeInsets.only(
-                      left: 10, right: 10, bottom: 13, top: 5),
-                  decoration: BoxDecoration(
-                    color: Colors.green,
-                    borderRadius: BorderRadius.circular(34),
-                    image: const DecorationImage(
-                      image: AssetImage('assets/image/qwerty.jpeg'),
-                      fit: BoxFit.cover,
+              child: GestureDetector(
+                  onTap: onSuvenirPress,
+                  child: Container(
+                    height: 143,
+                    margin: const EdgeInsets.only(
+                        left: 10, right: 10, bottom: 13, top: 5),
+                    decoration: BoxDecoration(
+                      color: Colors.green,
+                      borderRadius: BorderRadius.circular(34),
+                      image: const DecorationImage(
+                        image:
+                            AssetImage('assets/image/2023-06-11 22.44.10.jpg'),
+                        fit: BoxFit.cover,
+                      ),
                     ),
-                  ),
-                  child: GestureDetector(
-                    onTap: onSuvenirPress,
                     child: ClipRRect(
                         borderRadius: BorderRadius.circular(35),
                         child: const Center(
                           heightFactor: 3,
                           child: Text(
                             "Сувениры",
-                            style: headline1,
+                            style: TextStyle(
+                                color: const Color.fromRGBO(237, 218, 195, 1),
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold),
                           ),
                         )),
                   )),

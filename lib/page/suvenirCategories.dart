@@ -4,6 +4,7 @@ import 'package:glassmorphism/glassmorphism.dart';
 
 import '../core/colors.dart';
 import '../data/detail_page.dart';
+import '../data/detail_suvenir.dart';
 
 class SuvenirPage extends StatefulWidget {
   const SuvenirPage({super.key});
@@ -12,8 +13,34 @@ class SuvenirPage extends StatefulWidget {
   State<SuvenirPage> createState() => _SuvenirPageState();
 }
 
-class _SuvenirPageState extends State<SuvenirPage> {
+class _SuvenirPageState extends State<SuvenirPage>
+    with SingleTickerProviderStateMixin {
+  double screenWidth = 0;
+  double screenHeight = 0;
   final db = FirebaseFirestore.instance;
+  late AnimationController _animationController;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 150),
+    );
+    _animation = CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeInOut,
+    );
+    _animationController.forward();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -45,110 +72,128 @@ class _SuvenirPageState extends State<SuvenirPage> {
                 const SizedBox(height: 20),
                 Padding(
                   padding:
-                      const EdgeInsets.only(left: 15.0, right: 8.0, bottom: 12),
+                      const EdgeInsets.only(left: 2.0, right: 10.0, bottom: 12),
                   child: Container(
-                    height: 700,
-                    child: ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      itemCount: 6,
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () => Navigator.of(context).push(
-                              MaterialPageRoute(
-                                  builder: (context) => DetailPage(
-                                      querySnapshot:
-                                          snapshot.data.docs[index]))),
-                          child: Stack(
-                            children: [
-                              Hero(
-                                tag: "trail$index",
-                                child: Container(
-                                    height: 360,
-                                    width: 350,
-                                    margin:
-                                        EdgeInsets.only(left: 24, bottom: 13),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(35),
-                                      image: const DecorationImage(
-                                          image: AssetImage(
-                                              "assets/image/coffe.jpg"),
-                                          fit: BoxFit.cover),
-                                    )),
-                              ),
-                              Container(
-                                  height: 360,
-                                  width: 350,
-                                  margin: EdgeInsets.only(left: 24),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(35),
-                                      gradient: const LinearGradient(
-                                        begin: Alignment.topCenter,
-                                        end: Alignment.bottomCenter,
-                                        colors: [
-                                          Colors.transparent,
-                                          Colors.grey,
-                                        ],
-                                        stops: [
-                                          0.6,
-                                          0.9,
-                                        ],
-                                      ))),
-                              Positioned(
-                                  top: 34,
-                                  left: 24,
-                                  child: GlassmorphicContainer(
-                                    height: 50,
-                                    width: 210,
-                                    margin: EdgeInsets.only(left: 24),
-                                    blur: 8.0,
-                                    border: 0.0,
-                                    borderRadius: 8.0,
-                                    alignment: Alignment.center,
-                                    linearGradient: LinearGradient(
-                                        begin: Alignment.topCenter,
-                                        end: Alignment.bottomCenter,
-                                        colors: [
-                                          Colors.grey.withOpacity(0.4),
-                                          Colors.grey.withOpacity(0.4),
-                                        ]),
-                                    borderGradient: LinearGradient(
-                                        begin: Alignment.topCenter,
-                                        end: Alignment.bottomCenter,
-                                        colors: [
-                                          Colors.grey.withOpacity(0.4),
-                                          Colors.grey.withOpacity(0.4),
-                                        ]),
-                                    child: Text(
-                                      snapshot.data.docs[index]['price'],
-                                      // docs[0]['subtitle']
-                                      style: const TextStyle(
-                                          fontSize: 18,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  )),
-                              Positioned(
-                                bottom: 32,
-                                left: 24,
-                                child: Container(
-                                  margin: EdgeInsets.only(left: 24),
-                                  width: size.width / 2,
-                                  child: Text(
-                                    snapshot.data.docs[index]['name'],
-                                    style: const TextStyle(
-                                        fontSize: 28,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold),
+                    height: 500,
+                    child: GridView.count(
+                      crossAxisCount: 2, // Количество колонок
+                      childAspectRatio: 350 / 390,
+                      crossAxisSpacing:
+                          10, // Отступы между ячейками по горизонтали
+                      mainAxisSpacing:
+                          10, // Соотношение сторон дочерних элементов
+                      padding: EdgeInsets.zero,
+                      children: List.generate(
+                        snapshot.data.docs.length,
+                        (index) {
+                          return AnimatedOpacity(
+                            opacity: _animation.value,
+                            duration: const Duration(milliseconds: 150),
+                            curve: Curves.bounceOut,
+                            child: GestureDetector(
+                              onTap: () => Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => DetailPageSuvenir(
+                                    querySnapshot: snapshot.data.docs[index],
                                   ),
                                 ),
-                              )
-                            ],
-                          ),
-                        );
-                      },
+                              ),
+                              child: Stack(
+                                children: [
+                                  Hero(
+                                    tag: "trail$index",
+                                    child: Container(
+                                        height: 360,
+                                        width: 350,
+                                        margin: EdgeInsets.only(
+                                            left: 10, bottom: 12),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(35),
+                                          image: DecorationImage(
+                                              image: NetworkImage(snapshot
+                                                  .data.docs[index]['image']),
+                                              fit: BoxFit.cover),
+                                        )),
+                                  ),
+                                  Container(
+                                      height: 360,
+                                      width: 350,
+                                      margin: EdgeInsets.only(left: 10),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(35),
+                                          gradient: const LinearGradient(
+                                            begin: Alignment.topCenter,
+                                            end: Alignment.bottomCenter,
+                                            colors: [
+                                              Colors.transparent,
+                                              Colors.grey,
+                                            ],
+                                            stops: [
+                                              0.6,
+                                              0.8,
+                                            ],
+                                          ))),
+                                  Positioned(
+                                      top: 16,
+                                      left: 14,
+                                      child: GlassmorphicContainer(
+                                        height: 30,
+                                        width: 70,
+                                        margin: EdgeInsets.only(left: 10),
+                                        blur: 8.0,
+                                        border: 0.0,
+                                        borderRadius: 8.0,
+                                        alignment: Alignment.center,
+                                        linearGradient: LinearGradient(
+                                            begin: Alignment.topCenter,
+                                            end: Alignment.bottomCenter,
+                                            colors: [
+                                              Colors.grey.withOpacity(0.4),
+                                              Colors.grey.withOpacity(0.4),
+                                            ]),
+                                        borderGradient: LinearGradient(
+                                            begin: Alignment.topCenter,
+                                            end: Alignment.bottomCenter,
+                                            colors: [
+                                              Colors.grey.withOpacity(0.4),
+                                              Colors.grey.withOpacity(0.4),
+                                            ]),
+                                        child: Text(
+                                          snapshot.data.docs[index]['price'] +
+                                              ' ₽',
+                                          // docs[0]['subtitle']
+                                          style: const TextStyle(
+                                              fontSize: 13,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      )),
+                                  Positioned(
+                                    bottom: 12,
+                                    left: 24,
+                                    child: Container(
+                                      margin: EdgeInsets.only(left: 2),
+                                      width: size.width / 2,
+                                      child: Text(
+                                        snapshot.data.docs[index]['name'],
+                                        style: const TextStyle(
+                                            fontSize: 18,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      ),
                     ),
                   ),
-                ),
+                )
               ],
             );
           }),

@@ -7,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:provider/provider.dart';
+import '../page/title.dart';
 import '../provider/dark_theme_provider.dart';
 import '../services/category.dart';
 import 'categories_TestPage.dart';
@@ -30,6 +31,7 @@ class _BotomBarScreenState extends State<BotomBarScreen> {
       'title': 'Категории'
     },
     {'page': UserScreen(), 'title': 'Профиль'},
+    {'page': TitlePage()}
   ];
   void _selectPage(int index) {
     setState(() {

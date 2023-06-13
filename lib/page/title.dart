@@ -72,10 +72,6 @@ class _TitlePageState extends State<TitlePage> {
 
   final db = FirebaseFirestore.instance;
   int currentIndex = 0;
-  List<String> category = [
-    "Экскурсии",
-    "Маршруты",
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -106,41 +102,12 @@ class _TitlePageState extends State<TitlePage> {
                       const SizedBox(
                         height: 10,
                       ),
-                      Row(
-                        children: [],
-                      ),
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: List.generate(
-                            category.length,
-                            (index) => GestureDetector(
-                              onTap: () => setState(() {
-                                currentIndex = index;
-                              }),
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 20.0, right: 10, top: 10),
-                                child: Text(
-                                  category[index],
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      color: currentIndex == index
-                                          ? Colors.black
-                                          : Colors.grey),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
                       const SizedBox(height: 20),
                       Container(
                         height: 300,
                         child: ListView.builder(
                           scrollDirection: Axis.horizontal,
-                          itemCount: 2,
+                          itemCount: 4,
                           itemBuilder: (context, index) {
                             return GestureDetector(
                               onTap: () => Navigator.of(context).push(
@@ -159,9 +126,9 @@ class _TitlePageState extends State<TitlePage> {
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(35),
-                                          image: const DecorationImage(
-                                              image: AssetImage(
-                                                  "assets/image/coffe.jpg"),
+                                          image: DecorationImage(
+                                              image: NetworkImage(snapshot
+                                                  .data.docs[index]['image']),
                                               fit: BoxFit.cover),
                                         )),
                                   ),
@@ -184,40 +151,6 @@ class _TitlePageState extends State<TitlePage> {
                                               0.9,
                                             ],
                                           ))),
-                                  Positioned(
-                                      top: 24,
-                                      left: 24,
-                                      child: GlassmorphicContainer(
-                                        height: 50,
-                                        width: 210,
-                                        margin: EdgeInsets.only(left: 24),
-                                        blur: 8.0,
-                                        border: 0.0,
-                                        borderRadius: 8.0,
-                                        alignment: Alignment.center,
-                                        linearGradient: LinearGradient(
-                                            begin: Alignment.topCenter,
-                                            end: Alignment.bottomCenter,
-                                            colors: [
-                                              Colors.grey.withOpacity(0.4),
-                                              Colors.grey.withOpacity(0.4),
-                                            ]),
-                                        borderGradient: LinearGradient(
-                                            begin: Alignment.topCenter,
-                                            end: Alignment.bottomCenter,
-                                            colors: [
-                                              Colors.grey.withOpacity(0.4),
-                                              Colors.grey.withOpacity(0.4),
-                                            ]),
-                                        child: Text(
-                                          "",
-                                          // docs[0]['subtitle']
-                                          style: const TextStyle(
-                                              fontSize: 18,
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      )),
                                   Positioned(
                                     bottom: 32,
                                     left: 24,
@@ -285,14 +218,22 @@ class _TitlePageState extends State<TitlePage> {
                               if (randomDocumentData.isNotEmpty &&
                                   randomDocumentData.containsKey('image'))
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.only(left: 8, right: 12),
-                                  child: Image.network(
-                                    randomDocumentData['image'],
-                                    width: 400,
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
                                     height: 300,
+                                    width: 400,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(40),
+                                        image: DecorationImage(
+                                            image: NetworkImage(
+                                                randomDocumentData['image']),
+                                            fit: BoxFit.cover)),
                                   ),
                                 ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 10),
+                                child: Text(randomDocumentData['opis']),
+                              )
                             ],
                           ),
                         ),
@@ -325,7 +266,7 @@ class _TitlePageState extends State<TitlePage> {
                         ),
                         child: ListView.builder(
                           scrollDirection: Axis.horizontal,
-                          itemCount: 2,
+                          itemCount: 4,
                           itemBuilder: (context, index) {
                             return GestureDetector(
                               onTap: () => Navigator.of(context).push(
@@ -341,9 +282,9 @@ class _TitlePageState extends State<TitlePage> {
                                       margin: EdgeInsets.only(left: 24),
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(35),
-                                        image: const DecorationImage(
-                                            image: AssetImage(
-                                                "assets/image/coffe.jpg"),
+                                        image: DecorationImage(
+                                            image: NetworkImage(snapshot
+                                                .data.docs[index]['image']),
                                             fit: BoxFit.cover),
                                       )),
                                   Container(

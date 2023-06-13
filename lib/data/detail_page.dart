@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 
+import '../phoneAyth/register_screen.dart';
 import '../phoneAyth/user_model.dart';
 
 class DetailPage extends StatefulWidget {
@@ -17,6 +18,7 @@ class DetailPage extends StatefulWidget {
 class _DetailPageState extends State<DetailPage> {
   final db = FirebaseFirestore.instance;
   int currentIndex = 0;
+  bool isFavorite = false;
   List<Review> reviews = [];
   double averageRating = 0.0;
 
@@ -24,6 +26,67 @@ class _DetailPageState extends State<DetailPage> {
   void initState() {
     super.initState();
     loadReviews();
+
+    checkIfFavorite();
+  }
+
+  void checkIfFavorite() async {
+    final ap = Provider.of<AuthProvider>(context, listen: false);
+    final user = ap.isSignedIn == true;
+    final userId = ap.userModel.uid;
+
+    if (userId != null) {
+      final favoriteSnapshot = await db
+          .collection('favorites')
+          .where('userId', isEqualTo: userId)
+          .where('excursionId', isEqualTo: widget.querySnapshot.id)
+          .get();
+
+      setState(() {
+        isFavorite = favoriteSnapshot.docs.isNotEmpty;
+      });
+    }
+  }
+
+  void toggleFavorite() async {
+    final ap = Provider.of<AuthProvider>(context, listen: false);
+    final user = ap.isSignedIn == true;
+    final userId = ap.userModel.uid;
+
+    if (userId == null) {
+      // Пользователь не вошел в систему, выполните действие по вашему усмотрению
+      AlertDialog(
+        content: Text("Войдите в систему"),
+      );
+      return;
+    }
+
+    final excursionId = widget.querySnapshot.id;
+
+    final favoriteSnapshot = await db
+        .collection('favorites')
+        .where('userId', isEqualTo: userId)
+        .where('excursionId', isEqualTo: excursionId)
+        .get();
+
+    if (favoriteSnapshot.docs.isEmpty) {
+      // Если запись о избранном не найдена, добавляем ее
+      await db.collection('favorites').add({
+        'userId': userId,
+        'excursionId': excursionId,
+        'excursionName': widget.querySnapshot['title'],
+        'rating': 0,
+        'comment': '',
+      });
+    } else {
+      // Если запись о избранном найдена, удаляем ее
+      final favoriteId = favoriteSnapshot.docs[0].id;
+      await db.collection('favorites').doc(favoriteId).delete();
+    }
+
+    setState(() {
+      isFavorite = !isFavorite;
+    });
   }
 
   Future<void> loadReviews() async {
@@ -63,6 +126,19 @@ class _DetailPageState extends State<DetailPage> {
       'comment': review.comment,
       'profilePic': profilePic,
     });
+    final excursionId = review.excursionId;
+    final excursionName = widget.querySnapshot['title'];
+
+    // Сохранение отзыва в коллекцию "reviews"
+    await db.collection('reviews').add({
+      'excursionId': excursionId,
+      'username': review.username,
+      'rating': review.rating,
+      'comment': review.comment,
+      'profilePic': profilePic,
+    });
+
+    // Сохранение информации о месте в избранное
 
     setState(() {
       reviews.add(review);
@@ -74,6 +150,7 @@ class _DetailPageState extends State<DetailPage> {
 
   @override
   Widget build(BuildContext context) {
+    final ap = Provider.of<AuthProvider>(context, listen: false);
     double height = MediaQuery.of(context).size.height;
     double widht = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -105,36 +182,6 @@ class _DetailPageState extends State<DetailPage> {
                           widget.querySnapshot['image'],
                         ),
                       ),
-                      Positioned(
-                        top: 16,
-                        left: 16,
-                        child: Container(
-                          child: Icon(
-                            Icons.arrow_back,
-                            color: Colors.white,
-                          ),
-                          padding: const EdgeInsets.all(8),
-                          decoration: const BoxDecoration(
-                            color: Colors.grey,
-                            borderRadius: BorderRadius.all(Radius.circular(20)),
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        top: 16,
-                        right: 16,
-                        child: Container(
-                          child: Icon(
-                            Icons.assistant_direction,
-                            color: Colors.white,
-                          ),
-                          padding: EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            color: Colors.grey,
-                            borderRadius: BorderRadius.all(Radius.circular(20)),
-                          ),
-                        ),
-                      ),
                       Container(
                         child: Padding(
                           padding: const EdgeInsets.all(16),
@@ -146,7 +193,7 @@ class _DetailPageState extends State<DetailPage> {
                             ),
                           ),
                         ),
-                        height: height * .09,
+                        height: height * .13,
                         width: double.infinity,
                         decoration: const BoxDecoration(
                           color: Colors.white,
@@ -200,7 +247,7 @@ class _DetailPageState extends State<DetailPage> {
                                   child: Text("10.00 - 22.00",
                                       style:
                                           GoogleFonts.montserrat(fontSize: 12)),
-                                )
+                                ),
                               ],
                             )
                           ],
@@ -237,12 +284,48 @@ class _DetailPageState extends State<DetailPage> {
                               style: GoogleFonts.montserrat(fontSize: 14),
                             ),
                             const SizedBox(height: 16),
-                            Text(
-                              'Краткая информация',
-                              style: GoogleFonts.montserrat(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
+                            Row(
+                              children: [
+                                Text(
+                                  'Краткая информация',
+                                  style: GoogleFonts.montserrat(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                if (ap.isSignedIn == true)
+                                  IconButton(
+                                    icon: Icon(
+                                      isFavorite
+                                          ? Icons.favorite
+                                          : Icons.favorite_border,
+                                      color: Colors.white,
+                                    ),
+                                    onPressed: toggleFavorite,
+                                  )
+                                else
+                                  IconButton(
+                                      icon: Icon(
+                                        isFavorite
+                                            ? Icons.favorite
+                                            : Icons.favorite_border,
+                                        color: Colors.white,
+                                      ),
+                                      onPressed: () {
+                                        showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return Container(
+                                                height: 100,
+                                                width: 100,
+                                                decoration: BoxDecoration(
+                                                    color: Colors.white),
+                                                child: Text(
+                                                    'Для добавления в "Избранное", пожалуйста зарегестрируйтесь'),
+                                              );
+                                            });
+                                      })
+                              ],
                             ),
                             const SizedBox(height: 16),
                             Text(
@@ -259,37 +342,53 @@ class _DetailPageState extends State<DetailPage> {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                IconButton(
-                                  onPressed: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return AlertDialog(
-                                          title:
-                                              const Text('Добавьте ваш отзыв'),
-                                          content: CommentInput(
-                                            onSave: (username, rating, comment,
-                                                profilePic) {
-                                              final newReview = Review(
-                                                excursionId:
-                                                    widget.querySnapshot.id,
-                                                username: username,
-                                                rating: rating,
-                                                comment: comment,
-                                                profilePic: profilePic,
-                                                id: '',
-                                              );
+                                if (ap.isSignedIn == true)
+                                  IconButton(
+                                    onPressed: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: const Text(
+                                                'Добавьте ваш отзыв'),
+                                            content: CommentInput(
+                                              onSave: (username, rating,
+                                                  comment, profilePic) {
+                                                final newReview = Review(
+                                                  excursionId:
+                                                      widget.querySnapshot.id,
+                                                  username: username,
+                                                  rating: rating,
+                                                  comment: comment,
+                                                  profilePic: profilePic,
+                                                  id: '',
+                                                );
 
-                                              saveReview(newReview);
-                                              Navigator.of(context).pop();
-                                            },
-                                          ),
-                                        );
-                                      },
-                                    );
-                                  },
-                                  icon: Icon(Icons.add),
-                                ),
+                                                saveReview(newReview);
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                          );
+                                        },
+                                      );
+                                    },
+                                    icon: Icon(Icons.add),
+                                  )
+                                else
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                RegisterScreen()),
+                                      );
+                                    },
+                                    child: Text('Войти',
+                                        style: TextStyle(
+                                            color: const Color.fromRGBO(
+                                                29, 65, 53, 1))),
+                                  ),
                               ],
                             ),
                             const SizedBox(height: 10),
@@ -354,6 +453,8 @@ class Comment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double widht = MediaQuery.of(context).size.width;
     final ap = Provider.of<AuthProvider>(context, listen: false);
     return Padding(
       padding: const EdgeInsets.all(16),
@@ -361,9 +462,14 @@ class Comment extends StatelessWidget {
         children: [
           Row(
             children: [
-              Image.network(
-                profilePic,
+              Container(
                 width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                      image: NetworkImage(profilePic), fit: BoxFit.fill),
+                ),
               ),
               const SizedBox(
                 width: 10,
@@ -385,6 +491,14 @@ class Comment extends StatelessWidget {
             height: 10,
           ),
           Text(comment, style: GoogleFonts.montserrat(fontSize: 12)),
+          SizedBox(
+            height: 20,
+          ),
+          Container(
+            height: 10,
+            width: widht,
+            decoration: BoxDecoration(color: Colors.black12),
+          )
         ],
       ),
     );
@@ -420,6 +534,8 @@ class _CommentInputState extends State<CommentInput> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double widht = MediaQuery.of(context).size.width;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -466,7 +582,8 @@ class _CommentInputState extends State<CommentInput> {
           onPressed: () {
             widget.onSave(username, rating, comment, profilePic);
           },
-          child: Text('Отправить'),
+          child: Text('Отправить',
+              style: TextStyle(color: const Color.fromRGBO(29, 65, 53, 1))),
         ),
       ],
     );

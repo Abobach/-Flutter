@@ -1,6 +1,10 @@
 {
   "configurations": [
   
+    
+    
+    
+  
     {
       "name": "Flutter (sdk gphone x86 64)",
       "program": "lib/main.dart",

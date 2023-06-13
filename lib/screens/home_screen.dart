@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:vector_math/vector_math.dart' as math;
 
 import '../data/coffee_shop.dart';
+import '../data/detail_page.dart';
 import '../phoneAyth/auth_provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -27,7 +28,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final ap = Provider.of<AuthProvider>(context, listen: false);
     Size size = MediaQuery.of(context).size;
     final user = FirebaseAuth.instance.currentUser;
     final themeState = Provider.of<DarkThemeProvider>(context);
@@ -59,22 +59,22 @@ class _HomeScreenState extends State<HomeScreen> {
                             children: [
                               Container(
                                   alignment: Alignment.topLeft,
-                                  height: 50,
-                                  width: 50,
+                                  height: 80,
+                                  width: 80,
                                   decoration: BoxDecoration(
                                       image: const DecorationImage(
                                           image: AssetImage(
                                               "assets/image/logo.jpeg")),
-                                      borderRadius: BorderRadius.circular(25),
+                                      borderRadius: BorderRadius.circular(50),
                                       border: Border.all(
                                           color: Colors.white,
                                           style: BorderStyle.solid,
-                                          width: 3))),
+                                          width: 2))),
                               const SizedBox(
                                 width: 10,
                               ),
                               Text(
-                                ap.userModel.name,
+                                'История места',
                                 style: GoogleFonts.montserrat(
                                     color: Colors.white,
                                     fontSize: 18,
@@ -101,12 +101,13 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             Container(
                 height: 255.0,
+                width: size.width,
                 child: ListView(scrollDirection: Axis.horizontal, children: [
                   _buildImage1('assets/assets1/coffee.jpg'),
                   _buildImage2('assets/assets1/coffee2.jpg'),
                   _buildImage3('assets/assets1/coffee3.jpg')
                 ])),
-            SizedBox(height: 20),
+            SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.all(15),
               child: Text(
@@ -118,57 +119,103 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             SizedBox(height: 20),
-            const CoffeShop(
-              imagePath: "assets/image/1.jpg",
-              nameShop: "Волоколамский кремль",
-              rating: "4.8",
-              jamBuka: "10.00 - 23.00",
-            ),
-            const CoffeShop(
-              imagePath: "assets/image/45.jpg",
-              nameShop: "Ярополецкая ГЭС",
-              rating: "4.9",
-              jamBuka: "13.00 - 18.00",
-            ),
-            const CoffeShop(
-              imagePath: "assets/image/2.jpeg",
-              nameShop: "Мемориал героям-панфиловцам",
-              rating: "4.7",
-              jamBuka: "10.00 - 15.00",
-            ),
-            SizedBox(height: 30.0),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(
-                    'Дальше - Больше',
-                    style: TextStyle(
-                        fontFamily: 'varela',
-                        fontSize: 17.0,
-                        color: Color(0xFF473D3A)),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 15.0),
-                    child: Text(
-                      'Посмотреть все',
-                      style: TextStyle(
-                          fontFamily: 'varela',
-                          fontSize: 15.0,
-                          color: Color(0xFFCEC7C4)),
+            StreamBuilder(
+                stream: db.collection("categories").snapshots(),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (!snapshot.hasData)
+                    return Center(child: CircularProgressIndicator());
+                  return Column(children: [
+                    Container(
+                      height: 500,
+                      child: ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        itemCount: 4,
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                              onTap: () => Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (context) => DetailPage(
+                                          querySnapshot:
+                                              snapshot.data.docs[index]))),
+                              child: SizedBox(
+                                height: 250,
+                                child: Stack(
+                                  children: [
+                                    InkWell(
+                                      onTap: () {},
+                                      child: Card(
+                                        clipBehavior:
+                                            Clip.antiAliasWithSaveLayer,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                        elevation: 10,
+                                        child: Column(
+                                          children: [
+                                            SizedBox(
+                                                width: size.width,
+                                                height: 150,
+                                                child: Image.network(
+                                                    snapshot.data.docs[index]
+                                                        ['image'],
+                                                    fit: BoxFit.cover))
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    Positioned(
+                                        bottom: 0,
+                                        left: 10,
+                                        child: SizedBox(
+                                          height: 70,
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 10, right: 10),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                    snapshot.data.docs[index]
+                                                        ['title'],
+                                                    style:
+                                                        GoogleFonts.montserrat(
+                                                            fontSize: 17,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold)),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Icon(Icons.star,
+                                                        color: Colors.amber),
+                                                    SizedBox(
+                                                      width: 5,
+                                                    ),
+                                                    SizedBox(
+                                                      width: 20,
+                                                    ),
+                                                    Icon(Icons.access_time,
+                                                        color: Colors.grey),
+                                                    SizedBox(
+                                                      width: 5,
+                                                    ),
+                                                  ],
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        )),
+                                  ],
+                                ),
+                              ));
+                        },
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 15.0),
-            Container(
-                height: 125.0,
-                child: ListView(scrollDirection: Axis.horizontal, children: [
-                  _buildImage1('assets/assets1/coffee.jpg'),
-                ])),
-            SizedBox(height: 20.0),
+                  ]);
+                }),
           ],
         )),
       ),
@@ -352,7 +399,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   height: 300.0,
                   width: 300,
                   child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
+                    scrollDirection: Axis.vertical,
                     itemCount: 1,
                     itemBuilder: (BuildContext context, int index) {
                       return GestureDetector(

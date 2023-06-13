@@ -69,7 +69,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const RegisterScreen(),
+                            builder: (context) => const BotomBarScreen(),
                           ),
                         );
                       }

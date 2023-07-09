@@ -122,8 +122,6 @@ class _HomeScreenState extends State<HomeScreen> {
             StreamBuilder(
                 stream: db.collection("categories").snapshots(),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if (!snapshot.hasData)
-                    return Center(child: CircularProgressIndicator());
                   return Column(children: [
                     Container(
                       height: 500,
@@ -187,23 +185,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 SizedBox(
                                                   height: 10,
                                                 ),
-                                                Row(
-                                                  children: [
-                                                    Icon(Icons.star,
-                                                        color: Colors.amber),
-                                                    SizedBox(
-                                                      width: 5,
-                                                    ),
-                                                    SizedBox(
-                                                      width: 20,
-                                                    ),
-                                                    Icon(Icons.access_time,
-                                                        color: Colors.grey),
-                                                    SizedBox(
-                                                      width: 5,
-                                                    ),
-                                                  ],
-                                                )
+                                                Row()
                                               ],
                                             ),
                                           ),
@@ -228,14 +210,14 @@ class _HomeScreenState extends State<HomeScreen> {
         child: StreamBuilder<Object>(
             stream: db.collection("coffe").snapshots(),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
-              if (!snapshot.hasData)
-                return Center(
-                    child: CircularProgressIndicator(
-                  backgroundColor: Colors.grey[200], // цвет фона индикатора
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                      Colors.blue), // цвет индикатора
-                  strokeWidth: 6,
-                ));
+              // if (!snapshot.hasData)
+              //   return Center(
+              //       child: CircularProgressIndicator(
+              //     backgroundColor: Colors.grey[200], // цвет фона индикатора
+              //     valueColor: AlwaysStoppedAnimation<Color>(
+              //         Colors.blue), // цвет индикатора
+              //     strokeWidth: 6,
+              //   ));
               return Padding(
                 padding: const EdgeInsets.only(left: 10.0, right: 1),
                 child: Container(
@@ -385,14 +367,6 @@ class _HomeScreenState extends State<HomeScreen> {
         child: StreamBuilder<Object>(
             stream: db.collection("coffe").snapshots(),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
-              if (!snapshot.hasData)
-                return Center(
-                    child: CircularProgressIndicator(
-                  backgroundColor: Colors.grey[200], // цвет фона индикатора
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                      Colors.blue), // цвет индикатора
-                  strokeWidth: 6,
-                ));
               return Padding(
                 padding: const EdgeInsets.only(left: 10.0, right: 1),
                 child: Container(
@@ -549,14 +523,6 @@ class _HomeScreenState extends State<HomeScreen> {
         child: StreamBuilder<Object>(
             stream: db.collection("coffe").snapshots(),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
-              if (!snapshot.hasData)
-                return Center(
-                    child: CircularProgressIndicator(
-                  backgroundColor: Colors.grey[200], // цвет фона индикатора
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                      Colors.blue), // цвет индикатора
-                  strokeWidth: 6,
-                ));
               return Padding(
                 padding: const EdgeInsets.only(left: 10.0, right: 1),
                 child: Container(

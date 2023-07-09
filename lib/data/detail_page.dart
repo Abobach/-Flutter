@@ -75,6 +75,8 @@ class _DetailPageState extends State<DetailPage> {
         'userId': userId,
         'excursionId': excursionId,
         'excursionName': widget.querySnapshot['title'],
+        'excursionOpis': widget.querySnapshot['opis'],
+        'excursionImage': widget.querySnapshot['image'],
         'rating': 0,
         'comment': '',
       });
@@ -536,56 +538,67 @@ class _CommentInputState extends State<CommentInput> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double widht = MediaQuery.of(context).size.width;
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        TextField(
-          onChanged: (value) {
-            setState(() {
-              username = value;
-            });
-          },
-          decoration: InputDecoration(
-            labelText: 'Фио',
-          ),
-          controller: TextEditingController(text: username),
-        ),
-        const SizedBox(height: 8),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text('Оценка: $rating'),
-            Slider(
-              value: rating.toDouble(),
-              min: 0,
-              max: 5,
-              divisions: 5,
-              onChanged: (value) {
-                setState(() {
-                  rating = value.toInt();
-                });
-              },
+    return Container(
+      height: 300,
+      width: 500,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          TextField(
+            onChanged: (value) {
+              setState(() {
+                username = value;
+              });
+            },
+            decoration: InputDecoration(
+              labelText: 'Фио',
             ),
-          ],
-        ),
-        const SizedBox(height: 8),
-        TextField(
-          onChanged: (value) {
-            setState(() {
-              comment = value;
-            });
-          },
-          decoration: InputDecoration(labelText: 'Отзыв'),
-        ),
-        const SizedBox(height: 8),
-        ElevatedButton(
-          onPressed: () {
-            widget.onSave(username, rating, comment, profilePic);
-          },
-          child: Text('Отправить',
-              style: TextStyle(color: const Color.fromRGBO(29, 65, 53, 1))),
-        ),
-      ],
+            controller: TextEditingController(text: username),
+          ),
+          const SizedBox(height: 8),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('Оценка: $rating'),
+              Expanded(
+                child: Slider(
+                  value: rating.toDouble(),
+                  min: 0,
+                  max: 5,
+                  divisions: 5,
+                  onChanged: (value) {
+                    setState(() {
+                      rating = value.toInt();
+                    });
+                  },
+                  activeColor: const Color.fromRGBO(29, 65, 53, 1),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          TextField(
+            onChanged: (value) {
+              setState(() {
+                comment = value;
+              });
+            },
+            decoration: InputDecoration(labelText: 'Отзыв'),
+          ),
+          const SizedBox(height: 8),
+          ElevatedButton(
+            onPressed: () {
+              widget.onSave(username, rating, comment, profilePic);
+            },
+            style: ElevatedButton.styleFrom(
+              primary: const Color.fromRGBO(
+                  29, 65, 53, 1), // added green color to the button
+              onPrimary: Colors.white, // added text color to the button
+            ),
+            child: Text('Отправить'),
+          ),
+        ],
+      ),
     );
   }
 }

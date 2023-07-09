@@ -1,4 +1,5 @@
 import 'package:diplom_flutter/phoneAyth/auth_provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
@@ -15,6 +16,8 @@ class EditProfilePage extends StatefulWidget {
 }
 
 class _EditProfilePageState extends State<EditProfilePage> {
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
   late TextEditingController _nameController;
   late TextEditingController _emailController;
   late TextEditingController _bioController;
@@ -51,20 +54,21 @@ class _EditProfilePageState extends State<EditProfilePage> {
     if (ap.userModel != null) {
       DocumentSnapshot snapshot = await FirebaseFirestore.instance
           .collection('users')
-          .doc(widget.user.uid)
+          .doc(_firebaseAuth.currentUser!.uid)
           .get();
 
       setState(() {
-        _nameController.text = ap.userModel.name ?? '';
-        _emailController.text = ap.userModel.email ?? '';
-        _bioController.text = ap.userModel.bio ?? '';
+        _nameController.text = ap.userModel.name;
+        _emailController.text = ap.userModel.email;
+        _bioController.text = ap.userModel.bio;
 
-        _phoneNumberController.text = ap.userModel.phoneNumber ?? '';
+        _phoneNumberController.text = ap.userModel.phoneNumber;
       });
     }
   }
 
   void updateUserProfile() async {
+    final ap = Provider.of<AuthProvider>(context, listen: false);
     String newName = _nameController.text;
     String newEmail = _emailController.text;
     String newBio = _bioController.text;
@@ -77,10 +81,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
     };
 
     // Обновляем данные пользователя в Firebase
-    await FirebaseFirestore.instance
+    await _firebaseFirestore
         .collection('users')
-        .doc(widget.user.uid)
+        .doc(_firebaseAuth.currentUser!.uid)
         .update(updatedUserData);
+    Map<String, dynamic> updatedData = {
+      "name": newName,
+      "email": newEmail,
+      "bio": newBio,
+    };
 
     // Показываем сообщение об успешном обновлении или выполняем другие необходимые действия
     ScaffoldMessenger.of(context).showSnackBar(

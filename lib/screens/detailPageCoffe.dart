@@ -51,7 +51,7 @@ class _DetailsPageState extends State<DetailsPage> {
                     ),
                     SizedBox(height: 7.0),
                     Text(
-                      '5min',
+                      '5 минут',
                       style: TextStyle(
                           fontFamily: 'nunito',
                           fontSize: 14.0,
@@ -123,7 +123,7 @@ class _DetailsPageState extends State<DetailsPage> {
                     ),
                     SizedBox(height: 10.0),
                     const Text(
-                      'Информация о питании',
+                      'Информация о составе',
                       style: TextStyle(
                           fontFamily: 'nunito',
                           fontSize: 14.0,
@@ -201,24 +201,7 @@ class _DetailsPageState extends State<DetailsPage> {
                       ),
                     ),
                     SizedBox(height: 10.0),
-                    Padding(
-                        padding: EdgeInsets.only(right: 25.0),
-                        child: Container(
-                          height: 50.0,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(35.0),
-                              color: Color(0xFF473D3A)),
-                          child: Center(
-                            child: Text(
-                              'Make Order',
-                              style: TextStyle(
-                                  fontFamily: 'nunito',
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
-                          ),
-                        )),
+
                     SizedBox(height: 5.0)
                   ]))),
           Positioned(

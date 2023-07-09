@@ -24,15 +24,6 @@ class _SuvenirPageState extends State<SuvenirPage>
   @override
   void initState() {
     super.initState();
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 150),
-    );
-    _animation = CurvedAnimation(
-      parent: _animationController,
-      curve: Curves.easeInOut,
-    );
-    _animationController.forward();
   }
 
   @override
@@ -52,8 +43,6 @@ class _SuvenirPageState extends State<SuvenirPage>
       body: StreamBuilder(
           stream: db.collection("suvenirs").snapshots(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (!snapshot.hasData)
-              return Center(child: CircularProgressIndicator());
             return Column(
               children: [
                 const SizedBox(
@@ -86,107 +75,100 @@ class _SuvenirPageState extends State<SuvenirPage>
                       children: List.generate(
                         snapshot.data.docs.length,
                         (index) {
-                          return AnimatedOpacity(
-                            opacity: _animation.value,
-                            duration: const Duration(milliseconds: 150),
-                            curve: Curves.bounceOut,
-                            child: GestureDetector(
-                              onTap: () => Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => DetailPageSuvenir(
-                                    querySnapshot: snapshot.data.docs[index],
-                                  ),
+                          return GestureDetector(
+                            onTap: () => Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => DetailPageSuvenir(
+                                  querySnapshot: snapshot.data.docs[index],
                                 ),
                               ),
-                              child: Stack(
-                                children: [
-                                  Hero(
-                                    tag: "trail$index",
-                                    child: Container(
-                                        height: 360,
-                                        width: 350,
-                                        margin: EdgeInsets.only(
-                                            left: 10, bottom: 12),
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(35),
-                                          image: DecorationImage(
-                                              image: NetworkImage(snapshot
-                                                  .data.docs[index]['image']),
-                                              fit: BoxFit.cover),
-                                        )),
-                                  ),
-                                  Container(
+                            ),
+                            child: Stack(
+                              children: [
+                                Hero(
+                                  tag: "trail$index",
+                                  child: Container(
                                       height: 360,
                                       width: 350,
-                                      margin: EdgeInsets.only(left: 10),
+                                      margin:
+                                          EdgeInsets.only(left: 10, bottom: 12),
                                       decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(35),
-                                          gradient: const LinearGradient(
-                                            begin: Alignment.topCenter,
-                                            end: Alignment.bottomCenter,
-                                            colors: [
-                                              Colors.transparent,
-                                              Colors.grey,
-                                            ],
-                                            stops: [
-                                              0.6,
-                                              0.8,
-                                            ],
-                                          ))),
-                                  Positioned(
-                                      top: 16,
-                                      left: 14,
-                                      child: GlassmorphicContainer(
-                                        height: 30,
-                                        width: 70,
-                                        margin: EdgeInsets.only(left: 10),
-                                        blur: 8.0,
-                                        border: 0.0,
-                                        borderRadius: 8.0,
-                                        alignment: Alignment.center,
-                                        linearGradient: LinearGradient(
-                                            begin: Alignment.topCenter,
-                                            end: Alignment.bottomCenter,
-                                            colors: [
-                                              Colors.grey.withOpacity(0.4),
-                                              Colors.grey.withOpacity(0.4),
-                                            ]),
-                                        borderGradient: LinearGradient(
-                                            begin: Alignment.topCenter,
-                                            end: Alignment.bottomCenter,
-                                            colors: [
-                                              Colors.grey.withOpacity(0.4),
-                                              Colors.grey.withOpacity(0.4),
-                                            ]),
-                                        child: Text(
-                                          snapshot.data.docs[index]['price'] +
-                                              ' ₽',
-                                          // docs[0]['subtitle']
-                                          style: const TextStyle(
-                                              fontSize: 13,
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold),
-                                        ),
+                                        borderRadius: BorderRadius.circular(35),
+                                        image: DecorationImage(
+                                            image: NetworkImage(snapshot
+                                                .data.docs[index]['image']),
+                                            fit: BoxFit.cover),
                                       )),
-                                  Positioned(
-                                    bottom: 12,
-                                    left: 24,
-                                    child: Container(
-                                      margin: EdgeInsets.only(left: 2),
-                                      width: size.width / 2,
+                                ),
+                                Container(
+                                    height: 360,
+                                    width: 350,
+                                    margin: EdgeInsets.only(left: 10),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(35),
+                                        gradient: const LinearGradient(
+                                          begin: Alignment.topCenter,
+                                          end: Alignment.bottomCenter,
+                                          colors: [
+                                            Colors.transparent,
+                                            Colors.grey,
+                                          ],
+                                          stops: [
+                                            0.6,
+                                            0.8,
+                                          ],
+                                        ))),
+                                Positioned(
+                                    top: 16,
+                                    left: 14,
+                                    child: GlassmorphicContainer(
+                                      height: 30,
+                                      width: 70,
+                                      margin: EdgeInsets.only(left: 10),
+                                      blur: 8.0,
+                                      border: 0.0,
+                                      borderRadius: 8.0,
+                                      alignment: Alignment.center,
+                                      linearGradient: LinearGradient(
+                                          begin: Alignment.topCenter,
+                                          end: Alignment.bottomCenter,
+                                          colors: [
+                                            Colors.grey.withOpacity(0.4),
+                                            Colors.grey.withOpacity(0.4),
+                                          ]),
+                                      borderGradient: LinearGradient(
+                                          begin: Alignment.topCenter,
+                                          end: Alignment.bottomCenter,
+                                          colors: [
+                                            Colors.grey.withOpacity(0.4),
+                                            Colors.grey.withOpacity(0.4),
+                                          ]),
                                       child: Text(
-                                        snapshot.data.docs[index]['name'],
+                                        snapshot.data.docs[index]['price'] +
+                                            ' ₽',
+                                        // docs[0]['subtitle']
                                         style: const TextStyle(
-                                            fontSize: 18,
+                                            fontSize: 13,
                                             color: Colors.white,
                                             fontWeight: FontWeight.bold),
                                       ),
+                                    )),
+                                Positioned(
+                                  bottom: 12,
+                                  left: 24,
+                                  child: Container(
+                                    margin: EdgeInsets.only(left: 2),
+                                    width: size.width / 2,
+                                    child: Text(
+                                      snapshot.data.docs[index]['name'],
+                                      style: const TextStyle(
+                                          fontSize: 18,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
                                     ),
-                                  )
-                                ],
-                              ),
+                                  ),
+                                )
+                              ],
                             ),
                           );
                         },

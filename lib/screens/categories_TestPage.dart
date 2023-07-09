@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import '../CategoriesPage/coffe_detail_Page.dart';
 import '../core/text_style.dart';
 import '../data/cart.dart';
+import '../page/suvenirCategories.dart';
 import 'coffeCategorys.dart';
 
 class CategoriyScreenTest extends StatelessWidget {
@@ -29,8 +30,8 @@ class CategoriyScreenTest extends StatelessWidget {
     }
 
     onSuvenirPress() {
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => CoffeCategorysPage()));
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => SuvenirPage()));
     }
 
     return Scaffold(

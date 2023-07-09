@@ -134,8 +134,6 @@ class _UserScreenState extends State<UserScreen> {
                       ap.userModel.name = updatedData['name'];
                       ap.userModel.email = updatedData['email'];
                       ap.userModel.bio = updatedData['bio'];
-
-                      ap.userModel.phoneNumber = updatedData['phoneNumber'];
                     });
                   }
                 }),

@@ -41,18 +41,6 @@ class _CoffeCategorysPageState extends State<CoffeCategorysPage> {
                               fontSize: 30.0,
                               fontWeight: FontWeight.bold,
                               color: Color(0xFF473D3A))),
-                      Padding(
-                          padding: EdgeInsets.only(right: 15.0),
-                          child: Container(
-                            height: 40.0,
-                            width: 40.0,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20.0),
-                                image: DecorationImage(
-                                    image:
-                                        AssetImage('assets/assets1/model.jpg'),
-                                    fit: BoxFit.cover)),
-                          ))
                     ],
                   ),
                   SizedBox(height: 10.0),
@@ -79,18 +67,6 @@ class _CoffeCategorysPageState extends State<CoffeCategorysPage> {
                             fontFamily: 'varela',
                             fontSize: 17.0,
                             color: Color(0xFF473D3A)),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 15.0),
-                        child: SizedBox(
-                          child: Text(
-                            'Посмотреть все!',
-                            style: TextStyle(
-                                fontFamily: 'varela',
-                                fontSize: 15.0,
-                                color: Color(0xFFCEC7C4)),
-                          ),
-                        ),
                       ),
                     ],
                   ),
@@ -123,7 +99,7 @@ class _CoffeCategorysPageState extends State<CoffeCategorysPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text(
-                        'Лучшие десерты у нас!',
+                        'Лучшие сувениры у нас!',
                         style: TextStyle(
                             fontFamily: 'varela',
                             fontSize: 17.0,
@@ -153,9 +129,9 @@ class _CoffeCategorysPageState extends State<CoffeCategorysPage> {
                       height: 125.0,
                       child:
                           ListView(scrollDirection: Axis.horizontal, children: [
-                        _buildImage('assets/assets1/coffee.jpg'),
-                        _buildImage('assets/assets1/coffee2.jpg'),
-                        _buildImage('assets/assets1/coffee3.jpg')
+                        _buildImage('assets/image/rufMango.jpg'),
+                        _buildImage('assets/image/2023-06-11 22.43.59.jpg'),
+                        _buildImage('assets/image/2023-06-11 22.44.10.jpg')
                       ])),
                   SizedBox(height: 20.0)
                 ],

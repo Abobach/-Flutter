@@ -1,4 +1,4 @@
-# diplom_flutter
+# Flutter App "History Place"
 
 A new Flutter project.
 
